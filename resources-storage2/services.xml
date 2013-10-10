@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.5.1  Built on : Oct 19, 2009 (10:59:00 EDT) -->
+<serviceGroup>
+    <service name="FIAPStorage">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="org.fiap.soap.FIAPWSMessageReceiverInOut"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">org.fiap.storage2.Storage2</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="query" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://soap.fiap.org/">
+            <actionMapping>http://soap.fiap.org/query</actionMapping>
+            <outputActionMapping>http://soap.fiap.org/FIAPServiceSoap/queryResponse</outputActionMapping>
+        </operation>
+        <operation name="data" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://soap.fiap.org/">
+            <actionMapping>http://soap.fiap.org/data</actionMapping>
+            <outputActionMapping>http://soap.fiap.org/FIAPServiceSoap/dataResponse</outputActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

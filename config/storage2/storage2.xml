@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<storage2 debug="false" logpath="/usr/local/storage/log/storage.log" xmlns="http://gutp.jp/fiap/2009/11/storage">
+
+ <!-- Parameters for FIAPStorage2 Software --> 
+ <parameter name="STORAGE_QUERY_SESSION_TIME" value="60" />
+ <parameter name="MAX_QUERY_SESSIONS_BY_IP" value="10" />
+ <parameter name="DEFAULT_ACCEPTABLE_SIZE" value="100" />
+ <parameter name="MAX_ACCEPTABLE_SIZE" value="1000" />
+ <parameter name="MAX_KEY_COUNTS" value="6000" />
+ <parameter name="MAX_VALUE_COUNTS" value="5000" />
+
+ <!-- Access Control Module (needs fiap-sec-transport-x.x.jar to support IEEE1888.3) -->
+ <!--
+ <acm default="allow">
+  <roleDef name="user">
+   <initiator id="jo2lxq@hongo.wide.ad.jp" />  
+   <initiator id="jojo@hongo.wide.ad.jp" />  
+  </roleDef>
+
+  <roleDef name="device">
+   <initiator id="device@hongo.wide.ad.jp" />  
+   <initiator id="sensor@hongo.wide.ad.jp" />  
+   <initiator id="actuator@hongo.wide.ad.jp" />  
+  </roleDef>
+  
+  <role name="user">
+   <rule method="query" policy="allow">
+     <point id="*" />
+   </rule>
+   <rule method="data" policy="allow">
+     <point id="http://gutp.jp/Arduino/001/Temperature" />
+     <point id="http://gutp.jp/Arduino/002/*" />
+   </rule>
+  </role>
+ </acm>
+ -->
+  
+ <!-- FETCH Copy Configuration --> 
+ <!--
+ <fetch fiapURI="http://fiap-dev.gutp.ic.i.u-tokyo.ac.jp/axis2/services/FIAPStorage"
+       frequency="300" mode="latest" offset="-300" >
+   <point id="http://live-e.org/WXT510/1.itc.u-tokyo/Temperature" />
+   <point id="http://live-e.org/WXT510/1.itc.u-tokyo/Humidity" />
+   <point id="http://live-e.org/WXT510/1.itc.u-tokyo/Pressure" />
+   <point id="http://live-e.org/WXT510/1.itc.u-tokyo/RainFall" />
+   <point id="http://live-e.org/WXT510/1.itc.u-tokyo/DayRainFall" />
+   <point id="http://live-e.org/WXT510/1.itc.u-tokyo/WindDir" />
+   <point id="http://live-e.org/WXT510/1.itc.u-tokyo/WindSpeed" />
+ </fetch>
+ -->
+ 
+ <!-- WRITE Copy Configuration --> 
+ <!--
+ <write fiapURI="http://fiap-dev.gutp.ic.i.u-tokyo.ac.jp/axis2/services/FIAPStorage"
+       frequency="60" mode="diff" offset="-300" />
+   <point id="http://www.gutp.jp/dummy/boolean" />
+   <point id="http://www.gutp.jp/dummy/real1" />
+   <point id="http://www.gutp.jp/dummy/real2" />
+   <point id="http://www.gutp.jp/dummy/integer" />
+   <point id="http://www.gutp.jp/dummy/user_defined_enum1" />
+ </write>
+ -->
+ 
+</storage2>
