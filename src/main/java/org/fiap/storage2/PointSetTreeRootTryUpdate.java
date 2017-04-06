@@ -38,42 +38,46 @@ public class PointSetTreeRootTryUpdate implements IDbCommand {
 	}
 	
 	public boolean execDbCommand(Connection connection) throws SQLException {
-		
-		try{
-			java.sql.Statement stmt=connection.createStatement();
 			
-			String sql="SELECT id,parent,ispoint FROM pointsettree WHERE id=\'"+m_ID+"\'";
-			java.sql.ResultSet rset=stmt.executeQuery(sql);
+		try{
+			java.sql.PreparedStatement pstmt=null;
+			
+			String sql="SELECT id,parent,ispoint FROM pointsettree WHERE id=?;";
+			pstmt=connection.prepareStatement(sql);
+			
+			pstmt.setString(1, m_ID);
+			java.sql.ResultSet rset=pstmt.executeQuery();
 			if(rset.next()){
 				String id=rset.getString("id");
 				String parent=rset.getString("parent");
 				boolean ispoint=rset.getBoolean("ispoint");
 				if(parent!=null && !parent.equals("")){
 					rset.close();
-					stmt.close();
+					pstmt.close();
 					return true;
 				}
 			}
 			rset.close();
-			
-			String insert="INSERT INTO pointsettree (id,parent,ispoint) VALUES (\'"+m_ID+"\',null,";
-			if(m_IsPoint){
-				insert=insert+"true);";
-			}else{
-				insert=insert+"false);";
-			}
-			
+			pstmt.close();
+
+			String insert="INSERT INTO pointsettree (id,parent,ispoint) VALUES (?,null,?);";
+			pstmt=connection.prepareStatement(insert);
+
+			pstmt.setString(1, m_ID);
+			pstmt.setBoolean(2, m_IsPoint);
+
 			try{
-				stmt.execute(insert);
+				pstmt.execute();
+				pstmt.close();
 			}catch(Exception e){
-				String update="UPDATE pointsettree SET parent=null, ";
-				if(m_IsPoint){
-					update=update+"ispoint=true ";
-				}else{
-					update=update+"ispoint=false ";
-				}
-				update=update+"WHERE id=\'"+m_ID+"\';";
-				stmt.execute(update);
+				String update="UPDATE pointsettree SET parent=null, ispoint=? WHERE id=?;";
+				pstmt=connection.prepareStatement(update);
+
+				pstmt.setBoolean(1, m_IsPoint);
+				pstmt.setString(2, m_ID);
+
+				pstmt.execute();
+				pstmt.close();
 			}
 			
 		}catch(Exception e){

@@ -26,17 +26,18 @@ package org.fiap.storage2;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 public class PointValueUpdate implements IDbCommand {
 
 	private String m_ID;
-	private String m_Time;
+	private Timestamp m_Time;
 	private String m_AttrString;
 	private String m_Value;
 	
 	public PointValueUpdate(String id, java.util.Calendar time, String attrString, String value){
 		m_ID=id;
-		m_Time=org.fiap.util.W3CTimestamp.toString(time);
+		m_Time= new Timestamp(time.getTimeInMillis());
 		m_AttrString=attrString;
 		m_Value=value;
 	}
@@ -44,37 +45,46 @@ public class PointValueUpdate implements IDbCommand {
 	public boolean execDbCommand(Connection connection) throws SQLException {
 		
 		try{
-			java.sql.Statement stmt=connection.createStatement();
+			java.sql.PreparedStatement pstmt=null;
 			
-			String insert="INSERT INTO pointvalue (id,time,attrString,value) VALUES (\'"+m_ID+"\',\'"+m_Time+"\',";
+			String insert="INSERT INTO pointvalue (id,time,attrString,value) VALUES (?,?,?,?);";
+			pstmt=connection.prepareStatement(insert);
+			
+			pstmt.setString(1, m_ID);
+			pstmt.setTimestamp(2, m_Time);
 			if(m_AttrString!=null){
-				insert=insert+"\'"+m_AttrString+"\',";
+				pstmt.setString(3, m_AttrString);
 			}else{
-				insert=insert+"null,";
+				pstmt.setNull(3, java.sql.Types.VARCHAR);
 			}
 			if(m_Value!=null){
-				insert=insert+"\'"+m_Value+"\');";
+				pstmt.setString(4, m_Value);
 			}else{
-				insert=insert+"null);";
+				pstmt.setNull(4, java.sql.Types.VARCHAR);
 			}
 			
 			try{
-				stmt.execute(insert);
+				pstmt.execute();
+				pstmt.close();
 			}catch(Exception e){
-				String update="UPDATE pointvalue SET ";
+				String update="UPDATE pointvalue SET attrString=?, value=? WHERE id=? AND time=?;";
+				pstmt=connection.prepareStatement(update);
 				
 				if(m_AttrString!=null){
-					update=update+"attrString=\'"+m_AttrString+"\', ";
+					pstmt.setString(1, m_AttrString);
 				}else{
-					update=update+"attrString=null, ";
+					pstmt.setNull(1, java.sql.Types.VARCHAR);
 				}
 				if(m_Value!=null){
-					update=update+"value=\'"+m_Value+"\' ";
+					pstmt.setString(2, m_Value);
 				}else{
-					update=update+"value=null ";
+					pstmt.setNull(2, java.sql.Types.VARCHAR);
 				}
-				update=update+"WHERE id=\'"+m_ID+"\' AND time=\'"+m_Time+"\';";
-				stmt.execute(update);
+				pstmt.setString(3, m_ID);
+				pstmt.setTimestamp(4, m_Time);
+				
+				pstmt.execute();
+				pstmt.close();
 			}
 			
 		}catch(Exception e){

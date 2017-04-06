@@ -129,7 +129,7 @@ public class GetPointList {
 	 * XMLにシリアライズする
 	 */ 
 	private String generateXml(){
-				
+
 		StringBuilder sb=new StringBuilder();		
 		sb.append("<pointList xmlns=\"http://gutp.jp/fiap/2009/11/pointlist\">\n");
 	

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <storage2 debug="false" logpath="/usr/local/storage/log/storage.log" xmlns="http://gutp.jp/fiap/2009/11/storage">
 
  <!-- Parameters for FIAPStorage2 Software --> 

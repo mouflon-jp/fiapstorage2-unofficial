@@ -2,7 +2,7 @@
 <project basedir="." default="jar.server">
     <!--Auto generated ant build file-->
     <property environment="env"/>
-    <property name="axis2.home" value="axis2-1.6.2"/>
+    <property name="axis2.home" value="axis2-1.7.3"/>
     <property name="project.base.dir" value="."/>
     <property name="maven.class.path" value=""/>
     <property name="name" value="FIAPStorage"/>
